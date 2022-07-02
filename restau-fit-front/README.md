@@ -1,4 +1,4 @@
-# restau-fit2
+# restau-fit
 
 ## Project setup
 ```
