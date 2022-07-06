@@ -18,11 +18,12 @@ export default {
     },
   methods: {
     logando(e){
-      if(e == 'cliente'){
-        router.push({name: 'cliente'})
+      console.log(e)
+      if(e == 'Cliente'){
+        router.push({name: 'Cliente'})
       }
-      if(e == 'admin'){
-        router.push({name: 'admin'})
+      if(e == 'Admin'){
+        router.push({name: 'Administrador'})
       }
     }
   },

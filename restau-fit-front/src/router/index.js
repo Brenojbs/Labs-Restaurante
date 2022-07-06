@@ -19,14 +19,14 @@ const routes = [
     component: Reserva
   },
   {
-    path: '/admin',
-    name: 'Administrador',
-    component: Admin
-  },
-  {
     path: '/cliente',
     name: 'Cliente',
     component: Cliente
+  },
+  {
+    path: '/admin',
+    name: 'Administrador',
+    component: Admin
   }
 ]
 

@@ -2,13 +2,12 @@
   <div id="Login-api">
     <div>
       <h1 class="mx-auto" style="width: 200px;">
-      <p class="p">Tela de Login!</p>
+      <p class="p">Restau-fit!</p>
       </h1>
       <b-form-input class="input mx-auto" v-model="email" placeholder="Email"></b-form-input>
-      <b-form-input class="input mx-auto" v-model="senha" placeholder="Senha"></b-form-input>
+      <b-form-input type="password" class="input mx-auto" v-model="senha" placeholder="Senha"></b-form-input>
       <b-button variant="outline-primary" @click.stop.prevent="logado()">Button</b-button>
     </div>
-
   </div>
 </template>
 
@@ -27,22 +26,29 @@ export default {
     },
   methods: {
     logado(){
-      this.$axios.get('').then(()=>{
+      const senha = this.senha;
+      const email = this.email;
+      this.$axios.post('http://localhost:8000/login', {
+        'senha': senha,
+        'email': email,
+      }).then((response)=>{
+
         // Aqui faz uma requisição para o back e ele retorna se é cliente ou admin.
-        // if(response.data == 'cliente'){
-        //    this.cliente = true
-        // }
-        // if(response.data == 'admin'){
-        //    this.admin = true
-        // }
+
+        if(response.data == 'Cliente'){
+            this.cliente = true
+        }
+        if(response.data == 'Admin'){
+            this.admin = true
+        }
+        if(this.cliente){
+          this.$emit("logado", 'Cliente')
+        }
+        if(this.admin){
+          this.$emit("logado", 'Admin')
+        }
       })
-      if(this.cliente){
-        this.$emit("logado", 'cliente')
-      }
-      if(this.admin){
-        this.$emit("logado", 'admin')
-      }
-    },
+    }
   },
 
 }

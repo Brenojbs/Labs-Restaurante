@@ -12,27 +12,38 @@
       <div class="mt-3">Filtro: <strong>{{ filtro }}</strong></div>
     </div>
 
-    <div v-for="(item, index) in items" :key="index">
-      <b-card
-        title=item.nome
-        img-src=${item.imagem}
-        img-alt="Image de carne na panela"
-        img-top
-        tag="article"
-        style="max-width: 20rem;"
-        class="mb-2"
-      >
-        <b-card-text>
-          {{item.nome}}
-        </b-card-text>
-        <b-card-text>
-          {{item.categoria}}
-        </b-card-text>
-        <b-card-text>
-          {{item.preço}}
-        </b-card-text>
-      </b-card>
-    </div>
+    <div v-if="!items2">
+        <div  v-for="(item) in items" :key="item.id">
+          <b-card title='Pratos lindos' :src="`${item.imagem}`" img-alt="Image de carne na panela" img-top tag="article"
+            style="max-width: 20rem;" class="mb-2">
+            <b-card-text>
+              {{ item.nome }}
+            </b-card-text>
+            <b-card-text>
+              {{ item.categoria }}
+            </b-card-text>
+            <b-card-text>
+              R$ {{ item.preço }},00
+            </b-card-text>
+          </b-card>
+        </div>
+      </div>
+      <div v-else>
+        <div  v-for="(item) in items2" :key="item.id">
+          <b-card title='Pratos lindos' :src="`${item.imagem}`" img-alt="Image de carne na panela" img-top tag="article"
+            style="max-width: 20rem;" class="mb-2">
+            <b-card-text>
+              {{ item.nome }}
+            </b-card-text>
+            <b-card-text>
+              {{ item.categoria }}
+            </b-card-text>
+            <b-card-text>
+              R$ {{ item.preço }},00
+            </b-card-text>
+          </b-card>
+        </div>
+      </div>
 	</div>
 </template>
 
@@ -42,23 +53,14 @@ export default {
 	name: 'Tela-Cliente',
 	data: function() {
     return {
-        mensagem: "",
-        nome: "",
-        data: "",
         filtro: null,
+        items: [],
+        items2: null,
         options: [
           { value: null, text: 'Selecione uma categoria' },
-          { value: 'Cosido', text: 'Cosido' },
+          { value: 'Cozido', text: 'Cozido' },
           { value: 'Assado', text: 'Assado' },
           { value: 'Frito', text: 'Frito' }
-        ],
-        items: [
-              {
-              nome: 'Carne de Panela',
-              imagem: 'https://149777215.v2.pressablecdn.com/wp-content/uploads/2018/01/shutterstock_162331454.jpg',
-              categoria: 'Cosido',
-              preço: 'R$ 0,00'
-            } 
         ],
         fields: [
             {
@@ -82,28 +84,27 @@ export default {
         ]
     }
     },
-  methods: {
-    // reservar(){
-    //   this.items.push({nome: this.nome, data: this.data})
-    //   console.log(this.nome, this.data)
-    //   this.nome = ""
-    //   this.data = ""
-    // },
-  },
   created(){
-    // this.$axios.get('').then((response)=>{
-    //   this.items = response.data.results
-    // })
-    // .catch((error)=>{
-    //   console.log(error)
-    // })
+    this.$axios.get('http://localhost:8000/cliente/prato').then((response)=>{
+      this.items = response.data
+    })
   },
-  // watch: {
-  //   filtro() {
-  //     this.$axios.get('' + this.filtro).then(() => {
-  //       this.items = response.data 
-  //     })
-  //   }
-  // }
+  watch: {
+    filtro() {
+      if(this.filtro) {
+        this.$axios.get('http://localhost:8000/cliente/prato/' + this.filtro).then((response) => {
+          this.items2 = response.data 
+        })
+      }else {
+        this.items2 = null;
+      }
+    },
+    // items() {
+    //       this.$axios.get('http://localhost:8000/admin/prato').then((response) => {
+    //         this.items = response.data
+    //         console.log(this.items)
+    //       })
+    // }
+  }
 }
 </script>
