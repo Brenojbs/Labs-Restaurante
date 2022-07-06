@@ -20,14 +20,16 @@ $router->get('/', function () use ($router) {
 $router->post('login/', 'UsuarioController@index');
 
 //  Parte de Cliente
-$router->get('prato/', 'PratoController@index');
-$router->get('reserva/', 'ReservaController@index');
-$router->post('reserva/', 'ReservaController@store');
-$router->put('reserva/{id}', 'ReservaController@update');
-$router->delete('reserva/{id}', 'ReservaController@destroy');
+$router->get('cliente/prato', 'PratoController@index');
+$router->get('cliente/prato/{filtro}', 'PratoController@get');
+$router->get('cliente/reserva/', 'ReservaController@index');
+$router->post('cliente/reserva/', 'ReservaController@store');
+$router->put('cliente/reserva/{id}', 'ReservaController@update');
+$router->delete('cliente/reserva/{id}', 'ReservaController@destroy');
 
 // Parte de Admin
-$router->get('prato/', 'PratoController@index');
-$router->post('prato/', 'PratoController@store');
-$router->put('prato/{id}', 'PratoController@update');
-$router->delete('prato/{id}', 'PratoController@destroy');
+$router->get('admin/prato/', 'PratoController@index');
+$router->get('admin/prato/{filtro}', 'PratoController@get');
+$router->post('admin/prato/', 'PratoController@store');
+$router->put('admin/prato/{id}', 'PratoController@update');
+$router->delete('admin/prato/{id}', 'PratoController@destroy');

@@ -24,10 +24,10 @@ class PratoController extends Controller
         return response()->json($pratos);
     }
 
-    public function get($id)
+    public function get($filtro)
     {
-        $prato = Prato::findOrFail($id);
-        return response()->json($prato);
+        $pratoFiltro = Prato::where('categoria', $filtro)->get();
+        return response()->json($pratoFiltro);
     }
 
     public function store(Request $request)
@@ -36,14 +36,14 @@ class PratoController extends Controller
         $this->validate($request,[
             'nome'=>'required|string|min:3',
             'categoria'=>'required|string',
-            'image' => 'required|url',
+            'imagem' => 'required|url',
             'preço' => 'required|integer'
         ]);
 // salvar um novo prato.
         $pratos = Prato::create([
             'nome'=>$request->input('nome'),
             'categoria'=> $request->input('categoria'),
-            'image' => $request->input('image'),
+            'imagem' => $request->input('imagem'),
             'preço' => $request->input('preço')
         ]);
 
@@ -55,14 +55,14 @@ class PratoController extends Controller
         // editar a verificação.
         $this->validate($request,[
             'nome'=>'sometimes|required|string|min:3',
-            'categoria'=>'sometimes|required|string',
-            'image' => 'sometimes|required|url',
+            'imagem' => 'sometimes|required|url',
             'preço' => 'sometimes|required|integer'
         ]);
 // achar o prato por id.
         $prato = Prato::findOrFail($id);
+
         // salvar o prato atualizado
-        $prato->update($request->only('nome', 'categoria', 'image', 'preço'));
+        $prato->update($request->only('nome', 'categoria', 'imagem', 'preço'));
 
         return response()->json($prato);
     }

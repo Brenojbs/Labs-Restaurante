@@ -17,11 +17,11 @@ class UsuarioController extends Controller
         //
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        $usuario = Usuario::get(['id','nome', 'email']);
-        return response()->json($usuario);
+        //  ['email', 'senha']
+        $usuario = Usuario::where('email', $request->email)->get();
+        return response()->json($usuario[0]->nome);
     }
 
 //     public function get($id)
