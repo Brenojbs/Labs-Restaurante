@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="h3 mb-3 fw-normal text-center">
     <router-view/>
     <div>
       <router-link class="m-1" to="/">Sair</router-link>
       <router-link class="m-1" to="cliente">Pratos</router-link>
     </div>
 
-  <h1>Tela de Reserva</h1>
-  <b-form-input class="input mx-auto" v-model="nome" placeholder="Nome"></b-form-input>
-  <b-form-input class="input mx-auto" v-model="data" type="date" placeholder="Data"></b-form-input>
-  <b-button variant="outline-primary" @click.stop.prevent="reservar()" >Reservar</b-button>
+  <h1 class="h3 m-3 fw-normal text-center">Tela de Reserva</h1>
+  <b-form-input class="m-1" v-model="nome" placeholder="Nome"></b-form-input>
+  <b-form-input class="m-1" v-model="data" type="date" placeholder="Data"></b-form-input>
+  <button class="w-20 m-1 btn btn-lg btn-primary" @click.stop.prevent="reservar()" >Reservar</button>
 
   <b-modal id="modal-1" title="Editar Reserva">
     <b-form-input class="input mx-auto" v-model="nome" placeholder="Nome"></b-form-input>

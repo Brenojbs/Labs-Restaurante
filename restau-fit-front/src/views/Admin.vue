@@ -1,19 +1,19 @@
 <template id='Tela-Admin'>
-  <div>
-    <div>
+  <div id="'Tela-Admin'">
+    <div class="mb-3 fw-normal text-center">
       <router-link class="m-1" to="/">Sair</router-link>
     </div>
-    <h1 class="mx-auto" style="width: 200px;">
-      <p class="p">Cadastrar Pratos!</p>
+    <h1 class="h3 mb-3 fw-normal text-center">
+      Cadastrar Pratos!
     </h1>
     <div>
-      <div>
-        <b-form-input class="input mx-auto" v-model="nome" placeholder="Nome"></b-form-input>
-        <b-form-select v-model="categoria" :options="options" size="sm" class="mt-3"></b-form-select>
-        <b-form-input class="input mx-auto" v-model="preço" type="number" placeholder="Preço"></b-form-input>
-        <b-form-input class="input mx-auto" v-model="imagem" placeholder="Imagem"></b-form-input>
-        <b-button variant="outline-primary" @click.stop.prevent="cadastrar()">Cadastrar</b-button>
-      </div>
+      <form class="mb-3 fw-normal text-center">
+        <b-form-input v-model="nome" placeholder="Nome" class="m-2"></b-form-input>
+        <b-form-select v-model="categoria" :options="options" size="sm" class="m-2"></b-form-select>
+        <b-form-input v-model="preço" type="number" placeholder="Preço" class="m-2"></b-form-input>
+        <b-form-input v-model="imagem" placeholder="Imagem" class="m-2"></b-form-input>
+        <button class="w-20 m-2 btn btn-lg btn-primary" @click.stop.prevent="cadastrar()">Cadastrar</button>
+      </form>
       <div>
         <b-form-select v-model="filtro" :options="options" size="sm" class="mt-3"></b-form-select>
         <div class="mt-3">Filtro: <strong>{{ filtro }}</strong></div>
@@ -137,7 +137,7 @@ export default {
         })
 
         this.nome = "";
-        this.categoria = "";
+        this.categoria = null;
         this.imagem = "";
         this.preço = "";
       })

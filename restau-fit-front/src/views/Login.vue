@@ -1,16 +1,17 @@
-<template>
-  <div id="Login-api">
-    <div>
-      <router-link class="m-1" to="cadastro">Cadastrar</router-link>
-    </div>
-    <div>
-      <h1 class="mx-auto" style="width: 200px;">
-      <p class="p">Restau-fit!</p>
-      </h1>
-      <b-form-input class="input m-2 mx-auto" v-model="email" placeholder="Email"></b-form-input>
-      <b-form-input type="password" class="input m-2 mx-auto" v-model="password" placeholder="Senha"></b-form-input>
-      <b-button variant="outline-primary" @click.stop.prevent="logado()">Logar</b-button>
-    </div>
+<template class="text-center">
+  <div id="Login-api" class="text-center form-signin w-50 m-auto">
+
+    <form >
+      <h1 class="h3 mb-3 fw-normal text-center">Restau-fit!</h1>
+
+      <b-form-input v-model="email" placeholder="Email"></b-form-input>
+      <b-form-input type="password" v-model="password" placeholder="Senha"></b-form-input>
+      <button class="w-100 btn btn-lg btn-primary" @click.stop.prevent="logado()">Logar</button>
+      <div>
+        <router-link class="m-1" to="cadastro">Cadastrar</router-link>
+      </div>
+    </form>
+
   </div>
 </template>
 
@@ -57,12 +58,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-  .p {
-    width: 200%;
-  }
-  .input {
-    width: 50%;
-  }
-</style>

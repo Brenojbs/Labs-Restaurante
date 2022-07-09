@@ -36,9 +36,7 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $user = User::where('email', $request->email)->get();
-        if ($user) {
-            return 'Email existente!';
-        }
+
         $this->validate($request,[
             'nome'=>'required|string|min:3',
             'email'=>'required|string',
@@ -52,8 +50,8 @@ class UserController extends BaseController
             'password'=> $senha,
             'categoria'=> $request->input('categoria'),
         ]);
+        return response()->json([$user, 'Cadastrado!!!']);
 
-        return response()->json($user);
     }
 }
 

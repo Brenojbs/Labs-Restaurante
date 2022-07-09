@@ -1,17 +1,17 @@
-<template>
-  <div id="Cadastro-api">
-    <div>
-    <div>
-      <router-link class="m-1" to="/">Login</router-link>
-    </div>
-      <h1 class="mx-auto" style="width: 200px;">
-      <p class="p">Restau-fit!</p>
+<template class="text-center">
+  <div id="Cadastro-api" class="text-center form-signin w-50 m-auto">
+    <form>
+      <h1 class="h3 mb-3 fw-normal text-center">
+        Restau-fit!
       </h1>
-      <b-form-input class="input m-2 mx-auto" v-model="nome" placeholder="Nome"></b-form-input>
-      <b-form-input class="input m-2 mx-auto" v-model="email" placeholder="Email"></b-form-input>
-      <b-form-input type="password" class="input m-2 mx-auto" v-model="password" placeholder="Senha"></b-form-input>
-      <b-button variant="outline-primary" @click.stop.prevent="cadastrar()">Cadastrar</b-button>
-    </div>
+      <b-form-input v-model="nome" placeholder="Nome"></b-form-input>
+      <b-form-input v-model="email" placeholder="Email"></b-form-input>
+      <b-form-input type="password" v-model="password" placeholder="Senha"></b-form-input>
+      <button class="w-100 btn btn-lg btn-primary" @click.stop.prevent="cadastrar()">Cadastrar</button>
+      <div>
+        <router-link class="m-1" to="/">Login</router-link>
+      </div>
+    </form>
     <div v-if="mensagem">
       {{ mensagem }}
     </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import router from '../router'
 
 export default {
   name: 'Cadastro-api',
@@ -45,18 +46,13 @@ export default {
             email,
             categoria,
         }).then((response) => {
-          this.items.push({
-            nome: this.nome,
-            email: this.email,
-            password: this.password,
-            categoria: this.categoria,
-        })
-          if (response.data == 'Email existente!') {
-            this.mensagem = 'Email existente!'
+          if (typeof(response.data[1]) == 'string') {
+            this.mensagem = response.data[1]
           }
           this.nome = "";
           this.email = "";
           this.password = "";
+          router.push({name: 'Login'})
         })
           .catch((error) => {
             console.log(error)
