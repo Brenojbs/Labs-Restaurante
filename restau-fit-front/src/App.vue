@@ -18,7 +18,6 @@ export default {
     },
   methods: {
     logando(e){
-      console.log(e)
       if(e == 'Cliente'){
         router.push({name: 'Cliente'})
       }

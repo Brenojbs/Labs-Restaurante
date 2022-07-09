@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Cadastro from '../views/Cadastro'
 import Reserva from '../views/Reserva'
 import Login from '../views/Login'
 import Admin from '../views/Admin'
@@ -27,6 +28,11 @@ const routes = [
     path: '/admin',
     name: 'Administrador',
     component: Admin
+  },
+  {
+    path: '/cadastro',
+    name: 'Cadastro',
+    component: Cadastro
   }
 ]
 

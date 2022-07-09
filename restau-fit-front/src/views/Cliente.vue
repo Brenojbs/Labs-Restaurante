@@ -48,11 +48,13 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
 
 export default {
 	name: 'Tela-Cliente',
 	data: function() {
     return {
+        access_token: null,
         filtro: null,
         items: [],
         items2: null,
@@ -85,15 +87,24 @@ export default {
     }
     },
   created(){
-    this.$axios.get('http://localhost:8000/cliente/prato').then((response)=>{
+    this.access_token = Cookie.get('token_back')
+
+    this.$axios.get('http://localhost:8000/cliente/prato',{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then((response)=>{
       this.items = response.data
     })
   },
   watch: {
     filtro() {
       if(this.filtro) {
-        this.$axios.get('http://localhost:8000/cliente/prato/' + this.filtro).then((response) => {
-          this.items2 = response.data 
+        this.$axios.get('http://localhost:8000/cliente/prato/' + this.filtro,{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }}).then((response) => {
+          this.items2 = response.data
         })
       }else {
         this.items2 = null;

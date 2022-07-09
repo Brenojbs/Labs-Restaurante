@@ -43,10 +43,13 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
+
 export default {
   name: 'Reserva-Cliente',
   data: function() {
     return {
+        access_token: null,
         nome: "",
         data: "",
         id: "",
@@ -75,8 +78,12 @@ export default {
       const data = this.data;
 
       this.$axios.post('http://localhost:8000/cliente/reserva', {
-        nome,
-        data,
+          nome,
+          data,
+        },{
+        headers: {
+          'Authorization': `Bearer ${this.access_token}`
+        }
       }).then(() => {
         this.items.push({
           nome: this.nome,
@@ -91,7 +98,11 @@ export default {
         })
     },
     get(){
-      this.$axios.get('http://localhost:8000/cliente/reserva').then((response)=>{
+      this.$axios.get('http://localhost:8000/cliente/reserva',{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then((response)=>{
         this.items = response.data
       })
     },
@@ -99,7 +110,11 @@ export default {
       this.$axios.put('http://localhost:8000/cliente/reserva/' + id, {
           nome: this.nome,
           data: this.data,
-        }).then(() => {
+        },{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then(() => {
 
         this.nome = "";
         this.data = "";
@@ -111,7 +126,11 @@ export default {
         })
     },
     deletar(id){
-      this.$axios.delete('http://localhost:8000/cliente/reserva/' + id).then(()=>{
+      this.$axios.delete('http://localhost:8000/cliente/reserva/' + id,{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then(()=>{
         this.items.splice(id, 1)
         this.get();
       })
@@ -124,16 +143,15 @@ export default {
     }
   },
   created(){
-    this.$axios.get('http://localhost:8000/cliente/reserva').then((response)=>{
+    this.access_token = Cookie.get('token_back')
+
+    this.$axios.get('http://localhost:8000/cliente/reserva',{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then((response)=>{
       this.items = response.data
     })
   },
-  // watch: {
-  //   items() {
-  //     this.$axios.get('http://localhost:8000/admin/prato').then((response) => {
-  //       this.items = response.data
-  //     })
-  //   }
-  // }
 }
 </script>

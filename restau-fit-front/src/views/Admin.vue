@@ -9,7 +9,7 @@
     <div>
       <div>
         <b-form-input class="input mx-auto" v-model="nome" placeholder="Nome"></b-form-input>
-        <b-form-select :options="options" size="sm" class="mt-3"></b-form-select>
+        <b-form-select v-model="categoria" :options="options" size="sm" class="mt-3"></b-form-select>
         <b-form-input class="input mx-auto" v-model="preço" type="number" placeholder="Preço"></b-form-input>
         <b-form-input class="input mx-auto" v-model="imagem" placeholder="Imagem"></b-form-input>
         <b-button variant="outline-primary" @click.stop.prevent="cadastrar()">Cadastrar</b-button>
@@ -50,14 +50,14 @@
               R$ {{ item.preço }},00
             </b-card-text>
             <b-button variant="primary" class="m-1" size="sm" @click="modal(item.id)" v-b-modal.modal-1>Editar</b-button>
-            <b-button variant="danger" class="m-1" size="sm" @click="deletar(index)">Deletar</b-button>
+            <b-button variant="danger" class="m-1" size="sm" @click="deletar(item.id)">Deletar</b-button>
           </b-card>
         </div>
       </div>
       <div>
         <b-modal id="modal-1" title="Editar Prato">
           <b-form-input class="input mx-auto" v-model="nome" placeholder="Nome"></b-form-input>
-          <b-form-select :options="options" size="sm" class="mt-3"></b-form-select>
+          <b-form-select v-model="categoria" :options="options" size="sm" class="mt-3"></b-form-select>
           <b-form-input class="input mx-auto" v-model="preço" type="number" placeholder="Preço"></b-form-input>
           <b-form-input class="input mx-auto" v-model="imagem" placeholder="Imagem"></b-form-input>
           <b-button v-b-modal.modal-1 @click="editar(id)" variant="primary">Salvar</b-button>
@@ -68,12 +68,15 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
+
 export default {
   name: 'Tela-Admin',
   data() {
     return {
+      access_token: null,
       nome: '',
-      categoria: '',
+      categoria: null,
       imagem: '',
       preço: 0,
       id: "",
@@ -121,7 +124,11 @@ export default {
         categoria,
         imagem,
         preço,
-      }).then(() => {
+      },{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then(() => {
         this.items.push({
           nome: this.nome,
           categoria: this.categoria,
@@ -139,7 +146,11 @@ export default {
         })
     },
     get(){
-      this.$axios.get('http://localhost:8000/admin/prato').then((response)=>{
+      this.$axios.get('http://localhost:8000/admin/prato',{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then((response)=>{
         this.items = response.data
       })
     },
@@ -152,7 +163,11 @@ export default {
           categoria: this.categoria,
           imagem: this.imagem,
           preço: this.preço,
-        }).then(() => {
+        },{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then(() => {
 
         this.nome = "";
         this.categoria = "";
@@ -166,7 +181,11 @@ export default {
         })
     },
     deletar(id) {
-      this.$axios.delete('http://localhost:8000/admin/prato/' + id).then(()=>{
+      this.$axios.delete('http://localhost:8000/admin/prato/' + id,{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then(()=>{
         this.get();
       })
       .catch((error)=>{
@@ -175,7 +194,13 @@ export default {
     }
   },
   created() {
-    this.$axios.get('http://localhost:8000/admin/prato').then((response) => {
+    this.access_token = Cookie.get('token_back')
+
+    this.$axios.get('http://localhost:8000/admin/prato',{
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    }).then((response) => {
       this.items = response.data
     })
   },
@@ -184,9 +209,12 @@ export default {
       if(!this.filtro) {
         this.items2 = null;
       }else {
-        this.$axios.get('http://localhost:8000/cliente/prato/' + this.filtro).then((response) => {
-          this.items2 = response.data 
-        })
+        this.$axios.get('http://localhost:8000/cliente/prato/' + this.filtro,{
+          headers: {
+            'Authorization': `Bearer ${this.access_token}`
+          }}).then((response) => {
+                  this.items2 = response.data 
+                })
       }
     },
     // items() {
