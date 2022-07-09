@@ -135,7 +135,7 @@ export default {
           imagem: this.imagem,
           preço: this.preço,
         })
-
+        this.get()
         this.nome = "";
         this.categoria = null;
         this.imagem = "";

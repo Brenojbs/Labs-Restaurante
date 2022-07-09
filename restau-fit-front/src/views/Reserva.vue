@@ -89,6 +89,7 @@ export default {
           nome: this.nome,
           data: this.data,
         })
+        this.get();
 
         this.nome = "";
         this.data = "";
